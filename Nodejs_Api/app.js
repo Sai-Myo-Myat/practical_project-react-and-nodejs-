@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const feedRouter = require('./routes/feeds.js')
+const feedRouter = require('./routes/feed.js')
 
 app.use(express.json())
 
@@ -12,7 +12,7 @@ app.use((req,res,next) => {
   next();
 })
 
-app.use('/feeds', feedRouter)
+app.use('/feed', feedRouter)
 
 app.listen(8000, () => {
   console.log("server is runing at localhost 8000")
