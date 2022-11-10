@@ -24,22 +24,22 @@ class App extends Component {
     error: null
   };
 
-  componentDidMount() {
-    const token = localStorage.getItem('token');
-    const expiryDate = localStorage.getItem('expiryDate');
-    if (!token || !expiryDate) {
-      return;
-    }
-    if (new Date(expiryDate) <= new Date()) {
-      this.logoutHandler();
-      return;
-    }
-    const userId = localStorage.getItem('userId');
-    const remainingMilliseconds =
-      new Date(expiryDate).getTime() - new Date().getTime();
-    this.setState({ isAuth: true, token: token, userId: userId });
-    this.setAutoLogout(remainingMilliseconds);
-  }
+  // componentDidMount() {
+  //   // const token = localStorage.getItem('token');
+  //   const expiryDate = localStorage.getItem('expiryDate');
+  //   if (!token || !expiryDate) {
+  //     return;
+  //   }
+  //   if (new Date(expiryDate) <= new Date()) {
+  //     this.logoutHandler();
+  //     return;
+  //   }
+  //   const userId = localStorage.getItem('userId');
+  //   const remainingMilliseconds =
+  //     new Date(expiryDate).getTime() - new Date().getTime();
+  //   this.setState({ isAuth: true, token: token, userId: userId });
+  //   this.setAutoLogout(remainingMilliseconds);
+  // }
 
   mobileNavHandler = isOpen => {
     this.setState({ showMobileNav: isOpen, showBackdrop: isOpen });
@@ -164,51 +164,53 @@ class App extends Component {
           path="/"
           exact
           render={props => (
-            <LoginPage
-              {...props}
-              onLogin={this.loginHandler}
-              loading={this.state.authLoading}
-            />
+            <FeedPage userId={this.state.userId} token={this.state.token} />
           )}
         />
         <Route
-          path="/signup"
-          exact
+          path="/:postId"
           render={props => (
-            <SignupPage
+            <SinglePostPage
               {...props}
-              onSignup={this.signupHandler}
-              loading={this.state.authLoading}
+              userId={this.state.userId}
+              token={this.state.token}
             />
           )}
         />
         <Redirect to="/" />
       </Switch>
     );
-    if (this.state.isAuth) {
-      routes = (
-        <Switch>
-          <Route
-            path="/"
-            exact
-            render={props => (
-              <FeedPage userId={this.state.userId} token={this.state.token} />
-            )}
-          />
-          <Route
-            path="/:postId"
-            render={props => (
-              <SinglePostPage
-                {...props}
-                userId={this.state.userId}
-                token={this.state.token}
-              />
-            )}
-          />
-          <Redirect to="/" />
-        </Switch>
-      );
-    }
+    // let routes = (
+    //   <Switch>
+
+    //     {/* <Route
+    //       path="/"
+    //       exact
+    //       render={props => (
+    //         <LoginPage
+    //           {...props}
+    //           onLogin={this.loginHandler}
+    //           loading={this.state.authLoading}
+    //         />
+    //       )}
+    //     /> */}
+    //     <Route
+    //       path="/signup"
+    //       exact
+    //       render={props => (
+    //         <SignupPage
+    //           {...props}
+    //           onSignup={this.signupHandler}
+    //           loading={this.state.authLoading}
+    //         />
+    //       )}
+    //     />
+    //     <Redirect to="/" />
+    //   </Switch>
+    // );
+    // if (this.state.isAuth) {
+      
+    // }
     return (
       <Fragment>
         {this.state.showBackdrop && (
