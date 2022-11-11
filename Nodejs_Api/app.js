@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 
 const feedRouter = require('./routes/feed.js')
 
+require('dotenv').config()
+
 app.use(express.json())
 
 app.use((req,res,next) => {
@@ -17,7 +19,7 @@ app.use('/feed', feedRouter)
 
 mongoose
   .connect(
-    "",
+    process.env.DATABASE_URL,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true
