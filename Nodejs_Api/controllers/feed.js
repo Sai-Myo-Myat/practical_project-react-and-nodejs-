@@ -16,11 +16,21 @@ exports.getPosts = (req,res,next) => {
 }
 
 exports.createPost = (req,res,next) => {
-  const body = req.body
+  const title = req.body.title;
+  const content = req.body.content;
   console.log(title,content)
   //storing into db
   res.status(201).json({
     message: "post created successfully", 
-    post: body
+    post: {
+      _id: new Date().toString(),
+      title: title,
+      content: content,
+      imageUrl: "images/js.jpg",
+      creator: {
+        name: "mg mg"
+      },
+      creactAt: new Date().toLocaleDateString
+    }
   })
 }
