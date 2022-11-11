@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const mongoose = require('mongoose')
 
 const feedRouter = require('./routes/feed.js')
 
@@ -14,6 +15,16 @@ app.use((req,res,next) => {
 
 app.use('/feed', feedRouter)
 
-app.listen(8000, () => {
-  console.log("server is runing at localhost 8000")
-})
+mongoose
+  .connect(
+    "database url",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    }
+  )
+  .then(result => {
+    console.log("connected with database")
+    app.listen(8000)
+  })
+  .catch(err => console.log(err))
