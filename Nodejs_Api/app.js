@@ -17,7 +17,7 @@ app.use('/feed', feedRouter)
 
 mongoose
   .connect(
-    "database url",
+    "",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true
