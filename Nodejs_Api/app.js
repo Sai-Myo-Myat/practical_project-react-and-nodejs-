@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 
 const feedRouter = require('./routes/feed.js')
 
-require('dotenv').config()
+require('dotenv').config();
 
 app.use(express.json())
 

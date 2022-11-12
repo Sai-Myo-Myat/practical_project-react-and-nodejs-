@@ -1,3 +1,5 @@
+const PostModel = require("../models/post")
+
 exports.getPosts = (req,res,next) => {
   res.status(200).json({
     posts: [
@@ -30,18 +32,19 @@ exports.createPost = (req,res,next) => {
     })
   }
 
-  //storing into db
-  res.status(201).json({
-    message: "post created successfully", 
-    post: {
-      _id: new Date().toString(),
-      title: title,
-      content: content,
-      imageUrl: "images/js.jpg",
-      creator: {
-        name: "mg mg"
-      },
-      creactAt: new Date().toLocaleDateString
-    }
+  const post = new PostModel({
+    title: title,
+    content: content,
+    imageUrl: "images/js.jpg",
+    creator: {name: "mg mg"},
   })
+  post.save()
+    .then(result => {
+      console.log(result, "posts")
+      res.status(201).json({
+        message: "post created successfully", 
+        post: result
+      })
+    })
+    .catch(err => console.log(err))
 }
