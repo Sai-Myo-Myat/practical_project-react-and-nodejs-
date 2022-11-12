@@ -26,10 +26,9 @@ exports.createPost = (req,res,next) => {
   console.log(title,content)
 
   if(!errors.isEmpty()) {
-    return res.status(422).json({
-      message: "Validation failed, entered values are incorrect",
-      errors: errors.array()
-    })
+    const error = new Error("Validation failed, entered values are incorrect");
+    error.statusCode = 422;
+    throw error;
   }
 
   const post = new PostModel({
@@ -46,5 +45,10 @@ exports.createPost = (req,res,next) => {
         post: result
       })
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      if(!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err)
+    })
 }

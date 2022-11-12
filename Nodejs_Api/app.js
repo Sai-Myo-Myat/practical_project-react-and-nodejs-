@@ -1,12 +1,14 @@
 const express = require('express');
 const app = express();
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const path = require('path')
 
 const feedRouter = require('./routes/feed.js')
 
 require('dotenv').config();
 
 app.use(express.json())
+app.use("/images",express.static(path.join(__dirname, "images")))
 
 app.use((req,res,next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -15,7 +17,14 @@ app.use((req,res,next) => {
   next();
 })
 
-app.use('/feed', feedRouter)
+app.use('/feed', feedRouter);
+
+app.use((error, req, res, next) => {
+  console.log(error,"this is error")
+  const status = error.statusCode || 500;
+  const message = error.message;
+  res.status(status).json({message: message})
+}); 
 
 mongoose
   .connect(
