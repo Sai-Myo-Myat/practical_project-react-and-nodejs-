@@ -7,11 +7,13 @@ const feedController = require('../controllers/feed.js');
 router.get('/posts',feedController.getPosts
 );
 
+router.get("/posts/:postId", feedController.getOnePost);
+
 router.post('/post',
   [
     body("title")
       .trim()
-      .isLength({min: 7}),
+      .isLength({min: 5}),
     body("content")
       .trim()
       .isLength({min: 5})
