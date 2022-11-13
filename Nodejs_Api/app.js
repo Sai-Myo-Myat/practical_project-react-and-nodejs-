@@ -2,13 +2,40 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const path = require('path')
+const multer = require('multer');
+const uuidV4 = require('uuid').v4;
 
 const feedRouter = require('./routes/feed.js')
 
 require('dotenv').config();
 
-app.use(express.json())
-app.use("/images",express.static(path.join(__dirname, "images")))
+const fileStorage = multer.diskStorage({
+  destination: (req,file,cb) => {
+    cb(null,"images")
+  },
+  filename: (req,file,cb) => {
+    cb(null, uuidV4() + "-" + file.originalname);
+  }
+});
+
+const fileFilter = (req,file,cb) => {
+  if(
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/jpeg" ||
+    file.mimetype === "image/png" 
+  ){
+    cb(null,true)
+  }else {
+    cb(null,false)
+  }
+}
+
+app.use(express.json());
+app.use("/images",express.static(path.join(__dirname, "images")));
+app.use(multer({
+  storage: fileStorage, 
+  fileFilter: fileFilter
+}).single('image'));
 
 app.use((req,res,next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
