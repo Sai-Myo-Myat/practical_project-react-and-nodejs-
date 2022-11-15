@@ -3,3 +3,6 @@ GET http://localhost:8000/feed/posts
 
 ###
 Get http://localhost:8000/feed/posts/636fb289243c6ce25bb1d052
+
+###
+POST http://localhost:8000/feed/post

@@ -35,7 +35,7 @@ exports.createPost = (req,res,next) => {
   
   const title = req.body.title;
   const content = req.body.content;
-  const imageUrl = req.file.path.replace(' \\', "/")
+  const imageUrl = req.file.path.replace('\\', "/")
 
   const post = new PostModel({
     title: title,

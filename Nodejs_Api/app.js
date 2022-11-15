@@ -30,13 +30,6 @@ const fileFilter = (req,file,cb) => {
   }
 }
 
-app.use(express.json());
-app.use("/images",express.static(path.join(__dirname, "images")));
-app.use(multer({
-  storage: fileStorage, 
-  fileFilter: fileFilter
-}).single('image'));
-
 app.use((req,res,next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
@@ -44,10 +37,16 @@ app.use((req,res,next) => {
   next();
 })
 
+app.use(express.json());
+app.use("/images",express.static(path.join(__dirname, "images")));
+app.use(multer({
+  storage: fileStorage, 
+  fileFilter: fileFilter
+}).single('image'));
+
 app.use('/feed', feedRouter);
 
 app.use((error, req, res, next) => {
-  console.log(error,"this is error")
   const status = error.statusCode || 500;
   const message = error.message;
   res.status(status).json({message: message})
