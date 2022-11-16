@@ -26,6 +26,7 @@ const fileFilter = (req,file,cb) => {
   ){
     cb(null,true)
   }else {
+    console.log("something went wrong ")
     cb(null,false)
   }
 }
@@ -39,7 +40,7 @@ app.use((req,res,next) => {
 
 app.use(express.json());
 app.use("/images",express.static(path.join(__dirname, "images")));
-app.use(multer({
+app.use("/",multer({
   storage: fileStorage, 
   fileFilter: fileFilter
 }).single('image'));
@@ -62,6 +63,6 @@ mongoose
   )
   .then(result => {
     console.log("connected with database")
-    app.listen(8000)
+    app.listen(8000);
   })
   .catch(err => console.log(err))

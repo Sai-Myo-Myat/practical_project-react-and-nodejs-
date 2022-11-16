@@ -115,6 +115,7 @@ class Feed extends Component {
     formData.append("title", postData.title);
     formData.append("image", postData.imageUrl);
     formData.append("content", postData.content);
+    console.log("formData", {...formData.title})
 
     fetch(url, {
       method: "POST",

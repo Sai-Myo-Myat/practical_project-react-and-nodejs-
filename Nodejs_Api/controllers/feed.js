@@ -27,20 +27,21 @@ exports.createPost = (req,res,next) => {
     throw error;
   }
 
-  if(!req.file) {
-    const error = new Error("file not found");
-    error.statusCode = 422;
-    throw error;
-  }
+  // if(!req.file) {
+  //   const error = new Error("file not found");
+  //   error.statusCode = 422;
+  //   throw error;
+  // }
   
   const title = req.body.title;
   const content = req.body.content;
-  const imageUrl = req.file.path.replace('\\', "/")
+  // const imageUrl = req.file.path.replace('\\', "/")
+  console.log("req body", req.body)
 
   const post = new PostModel({
     title: title,
     content: content,
-    imageUrl: imageUrl,
+    imageUrl: "images/js.jpg",
     creator: {name: "mg mg"},
   })
   post.save()
