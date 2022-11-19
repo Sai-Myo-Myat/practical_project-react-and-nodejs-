@@ -20,6 +20,7 @@ const { validationResult } = require('express-validator')
 
 exports.createPost = (req,res,next) => {
   const errors = validationResult(req);
+  console.log("req body", req.body)
 
   if(!errors.isEmpty()) {
     const error = new Error("Validation failed, entered values are incorrect");
@@ -27,22 +28,21 @@ exports.createPost = (req,res,next) => {
     throw error;
   }
 
-  // if(!req.file) {
-  //   const error = new Error("file not found");
-  //   error.statusCode = 422;
-  //   throw error;
-  // }
+  if(!req.file) {
+    const error = new Error("file not found");
+    error.statusCode = 422;
+    throw error;
+  }
   
   const title = req.body.title;
   const content = req.body.content;
-  // const imageUrl = req.file.path.replace('\\', "/")
-  console.log("req body", req.body)
+  let imageUrl = req.file.path.replace('\\', "/")
 
   const post = new PostModel({
     title: title,
     content: content,
-    imageUrl: "images/js.jpg",
-    creator: {name: "mg mg"},
+    imageUrl: imageUrl,
+    creator: {name: "mg mg"},KI
   })
   post.save()
     .then(result => {
