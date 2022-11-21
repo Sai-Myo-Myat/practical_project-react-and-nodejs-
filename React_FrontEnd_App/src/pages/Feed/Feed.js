@@ -113,9 +113,8 @@ class Feed extends Component {
     //set up data with image
     const formData = new FormData();
     formData.append("title", postData.title);
-    formData.append("image", postData.imageUrl);
+    formData.append("image", postData.image);
     formData.append("content", postData.content);
-    console.log("formdata", postData)
 
     fetch(url, {
       method: "POST",
@@ -131,7 +130,7 @@ class Feed extends Component {
         const post = {
           _id: resData.post._id,
           title: resData.post.title,
-          image: resData.imageUrl,
+          image: "http://localhost:8000/" + resData.imageUrl,
           content: resData.post.content,
           creator: resData.post.creator,
           createdAt: resData.post.createdAt
@@ -252,7 +251,7 @@ class Feed extends Component {
                   author={post.creator.name}
                   date={new Date(post.createdAt).toLocaleDateString('en-US')}
                   title={post.title}
-                  image={post.imageUrl}
+                  image={"http://localhost:8000/" + post.imageUrl}
                   content={post.content}
                   onStartEdit={this.startEditPostHandler.bind(this, post._id)}
                   onDelete={this.deletePostHandler.bind(this, post._id)}
