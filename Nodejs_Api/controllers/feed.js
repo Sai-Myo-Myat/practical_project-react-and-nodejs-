@@ -20,7 +20,6 @@ const { validationResult } = require('express-validator')
 
 exports.createPost = (req,res,next) => {
   const errors = validationResult(req);
-  console.log("req body", req.body)
 
   if(!errors.isEmpty()) {
     const error = new Error("Validation failed, entered values are incorrect");
@@ -42,11 +41,10 @@ exports.createPost = (req,res,next) => {
     title: title,
     content: content,
     imageUrl: imageUrl,
-    creator: {name: "mg mg"},KI
+    creator: {name: "mg mg"},
   })
   post.save()
     .then(result => {
-      console.log(result, "posts")
       res.status(201).json({
         message: "post created successfully", 
         post: result

@@ -26,7 +26,7 @@ const fileFilter = (req,file,cb) => {
   ){
     cb(null,true)
   }else {
-    console.log("something went wrong ")
+    console.log("image type is not provided ")
     cb(null,false)
   }
 }
@@ -45,6 +45,7 @@ app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single("image"))
 app.use('/feed', feedRouter);
 
 app.use((error, req, res, next) => {
+  console.log('error handler', error)
   const status = error.statusCode || 500;
   const message = error.message;
   res.status(status).json({message: message})
