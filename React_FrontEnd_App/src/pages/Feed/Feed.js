@@ -108,7 +108,7 @@ class Feed extends Component {
     // Set up data (with image!)
     let url = 'http://localhost:8000/feed/post';
     if (this.state.editPost) {
-      url = 'URL';
+      url = url;
     }
     //set up data with image
     const formData = new FormData();
