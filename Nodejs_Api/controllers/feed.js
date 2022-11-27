@@ -1,4 +1,5 @@
 const PostModel = require("../models/post")
+const { validationResult } = require('express-validator')
 
 exports.getPosts = (req,res,next) => {
   PostModel.find()
@@ -16,7 +17,6 @@ exports.getPosts = (req,res,next) => {
     })
 }
 
-const { validationResult } = require('express-validator')
 
 exports.createPost = (req,res,next) => {
   const errors = validationResult(req);
@@ -78,4 +78,29 @@ exports.getOnePost = (req,res,next) => {
       }
       next(err)
     })
+}
+
+exports.updatePost = (req,res,next) => {
+  const postId = req.params.postId;
+  const errors = validationResult(req);
+
+  if(!errors.isEmpty()){
+    const error = new Error("Validation failed, entered values are incorrect");
+    error.statusCode = 422;
+    throw error;
+  }
+
+  const title = req.body.title;
+  const content = req.body.content;
+  let imageUrl = req.body.image;
+
+  if(req.file) {
+    imageUrl = req.file.path.replace("\\","/");
+  }
+
+  if(!imageUrl) {
+    const error = new Error("No file picked!");
+    error.statusCode = 422;
+    throw error;
+  }
 }
