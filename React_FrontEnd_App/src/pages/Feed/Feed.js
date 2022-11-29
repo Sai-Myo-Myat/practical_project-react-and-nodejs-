@@ -59,7 +59,12 @@ class Feed extends Component {
       })
       .then(resData => {
         this.setState({
-          posts: resData.posts,
+          posts: resData.posts.map(post => {
+              return {
+                ...post,
+                imagePath: post.imageUrl
+              }
+          }),
           totalPosts: resData.totalItems,
           postsLoading: false
         });
@@ -106,9 +111,11 @@ class Feed extends Component {
       editLoading: true
     });
     // Set up data (with image!)
-    let url = 'http://localhost:8000/feed/post';
+    let url = 'http://localhost:8000/feed/post/';
+    let method  = "POST"
     if (this.state.editPost) {
-      url = url;
+      url = url + this.state.editPost._id;
+      method = "PUT"
     }
     //set up data with image
     const formData = new FormData();
@@ -117,7 +124,7 @@ class Feed extends Component {
     formData.append("content", postData.content);
 
     fetch(url, {
-      method: "POST",
+      method: method,
       body: formData
     })
       .then(res => {
